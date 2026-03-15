@@ -161,6 +161,7 @@ python_labs/
 │  ├─ lib/
 │  ├─ lab01/
 │  │   ├─ model.py
+│  │   ├─ validate.py
 │  │   └─ demo.py
 └─ images/
    └─ lab01/
@@ -168,6 +169,6 @@ python_labs/
 
 ---
 
-## Треминал
+## Терминал
 
 ![output](../../images/lab01/lab01_01.png)
