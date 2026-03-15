@@ -172,3 +172,8 @@ python_labs/
 ## Терминал
 
 ![output](../../images/lab01/lab01_01.png)
+
+
+
+
+член
