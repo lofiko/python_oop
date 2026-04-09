@@ -68,7 +68,6 @@
 python_labs/
 ├─ README.md
 ├─ src/
-│  ├─ lib/
 │  ├─ lab01/
 │  ├─ lab02/
 │  │   ├─ model.py
