@@ -16,6 +16,7 @@ class Scorable(Protocol):
 
 T = TypeVar('T')
 R = TypeVar('R')
+
 D = TypeVar('D', bound=Displayable)
 S = TypeVar('S', bound=Scorable)
 
@@ -48,6 +49,20 @@ class TypedCollection(Generic[T]):
 
     def __getitem__(self, index: int) -> T:
         return self._items[index]
+    
+    def remove_at(self, index: int) -> None:
+        if index < 0 or index >= len(self._items):
+            raise IndexError("Индекс за пределами коллекции")
+        self._items.pop(index)
+
+    def sort(self, key: Callable[[T], any]) -> None:
+        self._items.sort(key=key)
+
+    def find_by_title(self, title: str) -> list[T]:
+        return [item for item in self._items if title.lower() in item.title.lower()]
+
+    def find_by_author(self, author: str) -> list[T]:
+        return [item for item in self._items if author.lower() in item.author.lower()]
 
     def find(self, predicate: Callable[[T], bool]) -> Optional[T]:
         for item in self._items:
@@ -59,4 +74,4 @@ class TypedCollection(Generic[T]):
         return [item for item in self._items if predicate(item)]
 
     def map(self, transform: Callable[[T], R]) -> list[R]:
-        return [transform(item) for item in self._items]
+        return [transform(item) for item in self._items] 
