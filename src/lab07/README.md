@@ -17,7 +17,8 @@ lab07/
 ├── storage.py     # сохранение и загрузка данных (JSON)
 ├── model.py       # базовый класс Book
 ├── models.py      # дочерние классы PrintedBook, Ebook, AudioBook
-└── validate.py    # валидаторы
+├── validate.py    # валидаторы
+└── library.json   # json-файл 
 ```
 
 Приложение разбито на три слоя:
