@@ -1,5 +1,4 @@
 from app import LibraryApp
-from models import PrintedBook, Ebook, AudioBook
 from exceptions import ItemNotFoundError, DuplicateItemError, InvalidInputError
 
 
@@ -70,12 +69,9 @@ class CLI:
             print(f"{i}. [{book_type}] {book.title}")
             print(f"   Автор: {book.author}, {book.year} г.")
             print(f"   Цена: {book.price:.2f} руб. | Статус: {status}")
-            if isinstance(book, PrintedBook):
-                print(f"   Издательство: {book.publisher}, переплёт: {book.cover_type}")
-            elif isinstance(book, Ebook):
-                print(f"   Формат: {book.file_format}, размер: {book.file_size} МБ")
-            elif isinstance(book, AudioBook):
-                print(f"   Длительность: {book.duration} мин., чтец: {book.narrator}")
+            details = book.get_details()
+            if details:
+                print(f"   {details}")
             print("-" * 40)
 
     def _show_all(self) -> None:
@@ -92,8 +88,6 @@ class CLI:
 
         try:
             book_type = int(input("Выберите тип: "))
-            if book_type not in [1, 2, 3]:
-                raise InvalidInputError("Неверный тип книги")
 
             title = input("Название: ").strip()
             author = input("Автор: ").strip()
@@ -101,19 +95,22 @@ class CLI:
             pages = int(input("Количество страниц: "))
             price = float(input("Цена: "))
 
-            if book_type == 1:
-                publisher = input("Издательство: ").strip()
-                cover_type = input("Тип переплёта: ").strip()
-                book = PrintedBook(title, author, year, pages, price, publisher, cover_type)
-            elif book_type == 2:
-                file_format = input("Формат файла (PDF/EPUB): ").strip()
-                file_size = float(input("Размер файла (МБ): "))
-                book = Ebook(title, author, year, pages, price, file_format, file_size)
-            else:
-                duration = int(input("Длительность (мин.): "))
-                narrator = input("Чтец: ").strip()
-                book = AudioBook(title, author, year, pages, price, duration, narrator)
+            kwargs = {
+                'title': title, 'author': author,
+                'year': year, 'pages': pages, 'price': price
+            }
 
+            if book_type == 1:
+                kwargs['publisher'] = input("Издательство: ").strip()
+                kwargs['cover_type'] = input("Тип переплёта: ").strip()
+            elif book_type == 2:
+                kwargs['file_format'] = input("Формат файла (PDF/EPUB): ").strip()
+                kwargs['file_size'] = float(input("Размер файла (МБ): "))
+            elif book_type == 3:
+                kwargs['duration'] = int(input("Длительность (мин.): "))
+                kwargs['narrator'] = input("Чтец: ").strip()
+
+            book = self._app.create_book(book_type, **kwargs)
             self._app.add(book)
             print(f"Книга '{title}' успешно добавлена!")
 

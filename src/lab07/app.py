@@ -1,9 +1,9 @@
-from typing import Optional
+import os
 from model import Book
 from models import PrintedBook, Ebook, AudioBook
-from exceptions import ItemNotFoundError, DuplicateItemError
+from exceptions import ItemNotFoundError, DuplicateItemError, InvalidInputError
 import storage
-import os
+
 
 class LibraryApp:
     """Бизнес-логика библиотечного приложения."""
@@ -26,6 +26,29 @@ class LibraryApp:
     def get_all(self) -> list:
         """Получить все книги."""
         return list(self._books)
+
+    def create_book(self, book_type: int, **kwargs) -> Book:
+        """Создать книгу нужного типа."""
+        if book_type == 1:
+            return PrintedBook(
+                kwargs['title'], kwargs['author'], kwargs['year'],
+                kwargs['pages'], kwargs['price'],
+                kwargs['publisher'], kwargs['cover_type']
+            )
+        elif book_type == 2:
+            return Ebook(
+                kwargs['title'], kwargs['author'], kwargs['year'],
+                kwargs['pages'], kwargs['price'],
+                kwargs['file_format'], kwargs['file_size']
+            )
+        elif book_type == 3:
+            return AudioBook(
+                kwargs['title'], kwargs['author'], kwargs['year'],
+                kwargs['pages'], kwargs['price'],
+                kwargs['duration'], kwargs['narrator']
+            )
+        else:
+            raise InvalidInputError("Неверный тип книги")
 
     def add(self, book: Book) -> None:
         """Добавить книгу в коллекцию."""

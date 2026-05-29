@@ -27,6 +27,9 @@ class Book:
 
         Book.total_books += 1
 
+    def get_details(self) -> str:
+        """Вернуть уникальные поля книги для отображения."""
+        return ""
 
     # СВОЙСТВА
 

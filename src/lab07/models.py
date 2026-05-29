@@ -23,7 +23,10 @@ class PrintedBook(Book):
             f"Издательство: {self._publisher}\n"
             f"Переплет: {self._cover_type}" 
         )
-    
+    def get_details(self) -> str:
+        """Вернуть уникальные поля книги для отображения."""
+        return f"Издательство: {self._publisher}, переплёт: {self._cover_type}"
+
 class Ebook(Book):
     def __init__(self, title, author, year, pages, price, file_format, file_size):
         super().__init__(title, author, year, pages, price)
@@ -47,6 +50,9 @@ class Ebook(Book):
             f"Формат: {self._file_format}\n"
             f"Размер файла: {self._file_size} МБ"
         )
+    def get_details(self) -> str:
+        """Вернуть уникальные поля книги для отображения."""
+        return f"Формат: {self._file_format}, размер: {self._file_size} МБ"
 
 class AudioBook(Book):
     def __init__(self, title, author, year, pages, price, duration, narrator):
@@ -71,3 +77,6 @@ class AudioBook(Book):
             f"Длительность: {self._duration} мин.\n"
             f"Чтец: {self._narrator}"
         )
+    def get_details(self) -> str:
+        """Вернуть уникальные поля книги для отображения."""
+        return f"Длительность: {self._duration} мин., чтец: {self._narrator}"
